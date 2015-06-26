@@ -45,7 +45,7 @@ class Scraper
     attr_array.each do |string|
       if is_pair(string)
         key_value = string.split(": ")
-        @attr_hash[key_value[0]] = key_value[1]
+        @attr_hash[key_value[0].to_sym] = key_value[1]
       else
         @ymm = get_ymm(string)
       end
@@ -57,14 +57,11 @@ class Scraper
     @attrs_inner_text = get_inner_text(find_attrs(@noko))
     build_hash(@attrs_inner_text)
     @price = get_inner_text(find_price(@noko))[0].gsub("$","")
-    # *** more scraping features here: grab price, grab article title & link, grab y/m/m
+  end
+
+  def output_hash
+    run_scraper
+    {attr_hash: attr_hash, year: ymm[0], make: ymm[1], model: ymm[2], price: price}
   end
 
 end
-
-my_scraper = Scraper.new("https://chicago.craigslist.org/chc/cto/5093257333.html")
-my_scraper.run_scraper
-
-p my_scraper.attr_hash
-p my_scraper.ymm
-p my_scraper.price

@@ -11,21 +11,21 @@ class Edmunds
 		@year = args.fetch(:year, nil)
 		@make = args.fetch(:make, nil)
 		@model = args.fetch(:model, nil)
-		@api_key = ENV["API_KEY"]
+		@api_key = API_KEY
 		@prefix = "http://api.edmunds.com/api/vehicle/v2/"
 	end
 
 	def get_category
 		cat = attr_hash[:type]
 		if cat.match(" ")
-			cat.gsub("+").to_s 
+			cat.gsub("+").to_s
 		else
 			cat
 		end
 	end
 
 	def build_query_string
-		"#{prefix}#{make}/#{model}/#{year}/styles?state=used&category=#{get_category}&view=full&fmt=json&api_key=#{api_key}"
+		p "#{prefix}#{make}/#{model}/#{year}/styles?state=used&category=#{get_category}&view=full&fmt=json&api_key=#{api_key}"
 	end
 
 	def query_api
@@ -36,10 +36,12 @@ class Edmunds
 	end
 
 	def hashize
-		JSON.parse(query_api.body)
+		p JSON.parse(query_api.body)
 	end
 
 	def find_price
+		puts "*************** #{attr_hash.inspect}"
+		puts "#{year} #{make} #{model}"
 		my_trans_type = attr_hash[:transmission].upcase
 		hashize["styles"].each do |style|
 			if style["transmission"]["transmissionType"] == my_trans_type
@@ -53,7 +55,3 @@ class Edmunds
 	end
 
 end
-
-
-scraper = Scraper.new("http://chicago.craigslist.org/sox/cto/5088447088.html")
-edmunds = Edmunds.new(scraper.output_hash)
