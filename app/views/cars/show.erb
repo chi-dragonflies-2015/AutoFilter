@@ -1,0 +1,30 @@
+<div class="topQuestion">
+</div>
+<div class="carsTable">
+	<table>
+		<tr>
+			<th>
+				Description			
+			</th>
+			<th>
+				Edmunds Used Price
+			</th>
+			<th>
+				This Craigslist Ad Price
+			</th>
+		</tr>
+		<% @cars.each do |car| %>
+			<tr>
+				<td>
+					<%= car.title %>		
+				</td>
+				<td>
+					<%= car.edmunds_price %>		
+				</td>
+				<td>
+					<%= car.cl_price %>		
+				</td>
+			</tr>	
+		<% end %>
+	</table>
+</div>
