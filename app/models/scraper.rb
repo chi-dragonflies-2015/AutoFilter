@@ -62,5 +62,9 @@ class Scraper
 
 end
 
-my_scraper = Scraper.new("https://chicago.craigslist.org/chc/cto/5091329016.html")
+my_scraper = Scraper.new("https://chicago.craigslist.org/chc/cto/5093257333.html")
 my_scraper.run_scraper
+
+p my_scraper.attr_hash
+p my_scraper.ymm
+p my_scraper.price
